@@ -259,6 +259,7 @@ public class AStar {
 		int yb =0;
 		int x =0;
 		while(sc.hasNextLine()){
+			
 			char[] charArray = sc.nextLine().toCharArray();
 			//int length = sc.nextLine().length();
 			size_of_grid=charArray.length - 1 ; // We dont want '\n' being counted 
@@ -280,8 +281,9 @@ public class AStar {
 					nb_of_BL++;
 				}
 				
-		x++;
+		
 			}
+			x++;
 		}
 		System.out.println("Coord de A " + "X:" + xa +"  "+  "Y:"+ ya);
 		System.out.println("Nb of A " + nb_of_A);
