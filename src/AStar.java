@@ -13,6 +13,7 @@ public class AStar {
         Cell(int i, int j){
             this.i = i;
             this.j = j; 
+            //bojour
         }
         
         @Override
