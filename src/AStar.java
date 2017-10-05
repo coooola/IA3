@@ -1,5 +1,8 @@
 import java.util.*;
 
+
+//source code from http://www.codebytes.in/2015/02/a-shortest-path-finding-algorithm.html
+
 public class AStar {
     public static final int DIAGONAL_COST = 14;
     public static final int V_H_COST = 10;
@@ -12,8 +15,7 @@ public class AStar {
         
         Cell(int i, int j){
             this.i = i;
-            this.j = j; 
-            //bojour
+            this.j = j;
         }
         
         @Override
