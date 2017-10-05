@@ -251,6 +251,7 @@ public class AStar {
 		int size_of_grid = 0;
 		int nb_of_B =0 ;
 		int nb_of_BL =0 ;
+		ArrayList<Cell> list_blocked = new ArrayList<Cell>();
 		//int x = 0;
 		//int y=0;
 		int xb = 0;
@@ -279,6 +280,8 @@ public class AStar {
 					
 				if (charArray[i] == '#'){
 					nb_of_BL++;
+					
+					list_blocked.add(new Cell(x,i));
 				}
 				
 		
@@ -290,6 +293,7 @@ public class AStar {
 		System.out.println("Nb of B " + nb_of_B);
 		System.out.println("Coord de B " + "X:" + xb +"  "+  "Y:"+ yb);
 		System.out.println("Nb of BL " + nb_of_BL);
+		System.out.println("LA LISTE DES ELEMENTS BLOKES " + list_blocked.toString());
 		System.out.println("Size of grid " + size_of_grid);
 	}
 }
