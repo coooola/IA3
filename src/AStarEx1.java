@@ -310,6 +310,8 @@ public class AStarEx1 {
 		System.out.println("X et Y de la grille : " + x_size + size_of_grid);
 		test(1, x_size, y_size, xa, ya, xb, yb, list_blocked, "result8.txt"); 
 		
+		sc.close();
+		
 	}
 }
 

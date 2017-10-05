@@ -1,4 +1,5 @@
 import java.util.*;
+
 import java.io.*;
 
 
@@ -6,12 +7,11 @@ import java.io.*;
 //We changed the algorithm so we don't take into account the diagonal
 
 public class AStarEx2 {
-    public static final int DIAGONAL_COST = 14;
-    public static final int V_H_COST = 10;
     
     static class Cell{  
         int heuristicCost = 0; //Heuristic cost
         int finalCost = 0; //G+H
+        int cost = 0;
         int i, j;
         Cell parent; 
         
@@ -27,7 +27,7 @@ public class AStarEx2 {
     }
     
     //Blocked cells are just null Cell values in grid
-    static Cell [][] grid = new Cell[5][5];
+    static Cell [][] grid;
     
     static PriorityQueue<Cell> open;
      
@@ -74,7 +74,7 @@ public class AStarEx2 {
 			current = open.poll();
 			if(current==null)break;
 			closed[current.i][current.j]=true; 
-
+			
 			if(current.equals(grid[endI][endJ])){
 				return; 
 			} 
@@ -82,22 +82,22 @@ public class AStarEx2 {
 			Cell t;  
 			if(current.i-1>=0){
 				t = grid[current.i-1][current.j];
-				checkAndUpdateCost(current, t, current.finalCost+V_H_COST); 
+				checkAndUpdateCost(current, t, current.finalCost+current.cost); 
 			} 
 
 			if(current.j-1>=0){
 				t = grid[current.i][current.j-1];
-				checkAndUpdateCost(current, t, current.finalCost+V_H_COST); 
+				checkAndUpdateCost(current, t, current.finalCost+current.cost); 
 			}
 
 			if(current.j+1<grid[0].length){
 				t = grid[current.i][current.j+1];
-				checkAndUpdateCost(current, t, current.finalCost+V_H_COST); 
+				checkAndUpdateCost(current, t, current.finalCost+current.cost); 
 			}
 
 			if(current.i+1<grid.length){
 				t = grid[current.i+1][current.j];
-				checkAndUpdateCost(current, t, current.finalCost+V_H_COST);   
+				checkAndUpdateCost(current, t, current.finalCost+current.cost);   
 			}
 		} 
 	}
@@ -113,7 +113,6 @@ public class AStarEx2 {
     public static void test(int tCase, int x, int y, int si, int sj, int ei, int ej, ArrayList<Cell> blocked, String fileName){
            System.out.println("\n\nTest Case #"+tCase);
             //Reset
-           grid = new Cell[x][y];
            closed = new boolean[x][y];
            open = new PriorityQueue<>((Object o1, Object o2) -> {
                 Cell c1 = (Cell)o1;
@@ -130,6 +129,7 @@ public class AStarEx2 {
 
 		for(int i=0;i<x;++i){
 			for(int j=0;j<y;++j){
+				System.out.println(grid[i][j].cost);
 				grid[i][j] = new Cell(i, j);
 				grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
 				//                  System.out.print(grid[i][j].heuristicCost+" ");
@@ -163,7 +163,7 @@ public class AStarEx2 {
            **/
            
            Astar();
-           /**
+          
            System.out.println("\nScores for cells: ");
            for(int i=0;i<x;++i){
                for(int j=0;j<x;++j){
@@ -173,7 +173,7 @@ public class AStarEx2 {
                System.out.println();
            }
            System.out.println();
-            
+            /**
            if(closed[endI][endJ]){
                //Trace back the path 
                 System.out.println("Path: ");
@@ -238,18 +238,18 @@ public class AStarEx2 {
     }
      
     public static void main(String[] args) throws Exception{
-    	ArrayList<Cell> list = new ArrayList<Cell>();
+    	/*ArrayList<Cell> list = new ArrayList<Cell>();
     	list.add(new Cell(0,4));
     	list.add(new Cell(2,2));
     	list.add(new Cell(3,1));
     	list.add(new Cell(3,3));
     	list.add(new Cell(4,1));
         test(1, 5, 5, 0, 0, 3, 2, list, "result1.txt"); 
-        /*test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result2.txt");   
+        test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result2.txt");   
         test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}}, "result3.txt");
         
         test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}}, "result4.txt");*/
-        ReadFromFileUsingScanner("board-1-1.txt");
+        ReadFromFileUsingScanner("board-2-1.txt");
     }
 	public static void ReadFromFileUsingScanner(String fileName) throws IOException {
 		File file = new File(fileName);
@@ -261,6 +261,7 @@ public class AStarEx2 {
 		ArrayList<Cell> list_blocked = new ArrayList<Cell>();
 		//int x = 0;
 		//int y=0;
+		
 		int xb = 0;
 		int xa=0;
 		int ya =0;
@@ -293,12 +294,54 @@ public class AStarEx2 {
 					list_blocked.add(new Cell(x,i));
 				}
 				
+				
+				
 		
 			}
 			x++;
 		}
+			
 		x_size=x;
 		y_size=size_of_grid;
+		
+		grid = new Cell[x_size][y_size];
+		x =0;
+		
+		File file2 = new File(fileName);
+		Scanner sc2 = new Scanner(file);
+		
+		while(sc2.hasNextLine()){
+			
+			char[] charArray = sc2.nextLine().toCharArray();
+			//int length = sc.nextLine().length();
+			size_of_grid=charArray.length - 1 ; // We dont want '\n' being counted 
+
+				//System.out.println(charArray[i]);
+			for (int i =0; i< charArray.length-1 ;i++) {
+				grid[x][i] = new Cell(x, i);
+				if (charArray[i] == 'm')
+				{			
+					grid[x][i].cost = 50;
+				}
+				else if (charArray[i] == 'f')
+				{
+					grid[x][i].cost = 10;
+				}
+				else if (charArray[i] == 'g')
+				{
+					grid[x][i].cost = 5;
+				}
+				else if (charArray[i] == 'r')
+				{
+					grid[x][i].cost = 1;
+				}
+				else if (charArray[i] == 'w')
+				{
+					grid[x][i].cost = 100;
+				}
+			}
+			x++;
+		}
 		
 		System.out.println("Coord de A " + "X:" + xa +"  "+  "Y:"+ ya);
 		System.out.println("Nb of A " + nb_of_A);
@@ -308,7 +351,7 @@ public class AStarEx2 {
 		System.out.println("LA LISTE DES ELEMENTS BLOKES " + list_blocked.toString());
 		System.out.println("Size of grid " + size_of_grid);
 		System.out.println("X et Y de la grille : " + x_size + size_of_grid);
-		test(1, x_size, y_size, xa, xb, ya, yb, list_blocked, "result8.txt"); 
+		test(1, x_size, y_size, xa, ya, xb, yb, list_blocked, "result8.txt"); 
 		
 	}
 }
