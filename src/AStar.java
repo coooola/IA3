@@ -61,70 +61,7 @@ public class AStar {
         }
     }
     
-    public static void AStar(){ 
-        
-        //add the start location to open list.
-        open.add(grid[startI][startJ]);
-        
-        Cell current;
-        
-        while(true){ 
-            current = open.poll();
-            if(current==null)break;
-            closed[current.i][current.j]=true; 
 
-	static class Cell{  
-		int heuristicCost = 0; //Heuristic cost
-		int finalCost = 0; //G+H
-		int i, j;
-		Cell parent; 
-
-		Cell(int i, int j){
-			this.i = i;
-			this.j = j; 
-			//bojour
-		}
-
-		@Override
-		public String toString(){
-			return "["+this.i+", "+this.j+"]";
-		}
-	}
-
-	//Blocked cells are just null Cell values in grid
-	static Cell [][] grid = new Cell[5][5];
-
-	static PriorityQueue<Cell> open;
-
-	static boolean closed[][];
-	static int startI, startJ;
-	static int endI, endJ;
-
-	public static void setBlocked(int i, int j){
-		grid[i][j] = null;
-	}
-
-	public static void setStartCell(int i, int j){
-		startI = i;
-		startJ = j;
-	}
-
-	public static void setEndCell(int i, int j){
-		endI = i;
-		endJ = j; 
-	}
-
-	static void checkAndUpdateCost(Cell current, Cell t, int cost){
-		if(t == null || closed[t.i][t.j])return;
-		int t_final_cost = t.heuristicCost+cost;
-
-		boolean inOpen = open.contains(t);
-		if(!inOpen || t_final_cost<t.finalCost){
-			t.finalCost = t_final_cost;
-			t.parent = current;
-			if(!inOpen)open.add(t);
-		}
-	}
 
 	public static void AStar(){ 
 
@@ -301,10 +238,11 @@ public class AStar {
      
     public static void main(String[] args) throws Exception{   
         test(1, 5, 5, 0, 0, 3, 2, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result1.txt"); 
-        test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result2.txt");   
+        /*test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result2.txt");   
         test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}}, "result3.txt");
         
-        test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}}, "result4.txt");
+        test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}}, "result4.txt");*/
+        ReadFromFileUsingScanner("board-1-1.txt");
     }
 	public static void ReadFromFileUsingScanner(String fileName) throws IOException {
 		File file = new File(fileName);
@@ -335,6 +273,7 @@ public class AStar {
 				if (charArray[i] == 'B'){
 					nb_of_B++;
 					xb=x;
+					yb=i;
 				}
 					yb=i;
 				if (charArray[i] == '#'){
