@@ -1,7 +1,9 @@
 import java.util.*;
+import java.io.*;
 
 
 //source code from http://www.codebytes.in/2015/02/a-shortest-path-finding-algorithm.html
+//We changed the algorithm so we don't take into account the diagonal
 
 public class AStar {
     public static final int DIAGONAL_COST = 14;
@@ -106,7 +108,7 @@ public class AStar {
     ei, ej = end location's x and y coordinates
     int[][] blocked = array containing inaccessible cell coordinates
     */
-    public static void test(int tCase, int x, int y, int si, int sj, int ei, int ej, int[][] blocked){
+    public static void test(int tCase, int x, int y, int si, int sj, int ei, int ej, int[][] blocked, String fileName){
            System.out.println("\n\nTest Case #"+tCase);
             //Reset
            grid = new Cell[x][y];
@@ -142,20 +144,24 @@ public class AStar {
                setBlocked(blocked[i][0], blocked[i][1]);
            }
            
-           //Display initial map
-           System.out.println("Grid: ");
-            for(int i=0;i<x;++i){
-                for(int j=0;j<y;++j){
-                   if(i==si&&j==sj)System.out.print("SO  "); //Source
-                   else if(i==ei && j==ej)System.out.print("DE  ");  //Destination
-                   else if(grid[i][j]!=null)System.out.printf("%-3d ", 0);
-                   else System.out.print("BL  "); 
-                }
-                System.out.println();
-            } 
-            System.out.println();
            
-           AStar(); 
+           //Display initial map
+           /**
+           System.out.println("Grid: ");
+           for(int i=0;i<x;++i){
+               for(int j=0;j<y;++j){
+                  if(i==si&&j==sj)System.out.print("SO  "); //Source
+                  else if(i==ei && j==ej)System.out.print("DE  ");  //Destination
+                  else if(grid[i][j]!=null)System.out.printf("%-3d ", 0);
+                  else System.out.print("BL  "); 
+               }
+               System.out.println();
+           } 
+           System.out.println();
+           **/
+           
+           AStar();
+           /**
            System.out.println("\nScores for cells: ");
            for(int i=0;i<x;++i){
                for(int j=0;j<x;++j){
@@ -177,13 +183,62 @@ public class AStar {
                 } 
                 System.out.println();
            }else System.out.println("No possible path");
+           **/
+           
+          if(closed[endI][endJ]){
+	          final File resultFile =new File(fileName); 
+	          try {
+	              // Creation du fichier
+	        	  resultFile.createNewFile();
+	              // creation d'un writer (un écrivain)
+	              final FileWriter writer = new FileWriter(resultFile);
+	              try {
+	            	  for(int i=0;i<x;++i){
+	                      for(int j=0;j<y;++j){
+	                         if(i==si&&j==sj)
+	                        	 writer.write("A");
+	                         else if(i==ei && j==ej)
+	                        	 writer.write("B");
+	                         else if (pathContainCell(i, j, grid[endI][endJ]))
+	                        	 writer.write("O");
+	                         else if(grid[i][j]!=null)
+	                        	 writer.write(".");
+	                         else
+	                        	 writer.write("#");
+	                      }
+	                      writer.write("\n");
+	                  } 
+	                  System.out.println("Result created ! You can find the result in " + fileName );
+	              } finally {
+	                  // quoiqu'il arrive, on ferme le fichier
+	                  writer.close();
+	                  
+	              }
+	          } catch (Exception e) {
+	              System.out.println("The program was not able to create the file.");
+	          }
+          }
+          else 
+          {
+        	  System.out.println("No possible path. The result file was not created.");
+          }
+        	  
+    }
+    
+    public static boolean pathContainCell(int i, int j, Cell c)
+    {
+    	Cell current = c;
+    	while(current.parent != null && (current.i != i || current.j != j)){
+            current = current.parent;
+        }
+    	return(current != null && current.i == i && current.j == j);
     }
      
     public static void main(String[] args) throws Exception{   
-        test(1, 5, 5, 0, 0, 3, 2, new int[][]{{0,4},{2,2},{3,1},{3,3}}); 
-        test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}});   
-        test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}});
+        test(1, 5, 5, 0, 0, 3, 2, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result1.txt"); 
+        test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result2.txt");   
+        test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}}, "result3.txt");
         
-        test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}});
+        test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}}, "result4.txt");
     }
 }
