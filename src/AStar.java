@@ -148,7 +148,7 @@ public class AStar {
            
            
            //Display initial map
-           /**
+           
            System.out.println("Grid: ");
            for(int i=0;i<x;++i){
                for(int j=0;j<y;++j){
@@ -160,7 +160,7 @@ public class AStar {
                System.out.println();
            } 
            System.out.println();
-           **/
+           
            
            Astar();
            /**
@@ -307,7 +307,7 @@ public class AStar {
 		System.out.println("LA LISTE DES ELEMENTS BLOKES " + list_blocked.toString());
 		System.out.println("Size of grid " + size_of_grid);
 		System.out.println("X et Y de la grille : " + x_size + size_of_grid);
-		test(1, x_size, y_size, xa, xb, ya, yb, list_blocked, "result8.txt"); 
+		test(1, x_size, y_size, xa, ya, xb, yb, list_blocked, "result8.txt"); 
 		
 	}
 }
