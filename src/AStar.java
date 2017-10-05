@@ -110,7 +110,7 @@ public class AStar {
     ei, ej = end location's x and y coordinates
     int[][] blocked = array containing inaccessible cell coordinates
     */
-    public static void test(int tCase, int x, int y, int si, int sj, int ei, int ej, int[][] blocked, String fileName){
+    public static void test(int tCase, int x, int y, int si, int sj, int ei, int ej, ArrayList<Cell> blocked, String fileName){
            System.out.println("\n\nTest Case #"+tCase);
             //Reset
            grid = new Cell[x][y];
@@ -142,8 +142,8 @@ public class AStar {
              Set blocked cells. Simply set the cell values to null
              for blocked cells.
            */
-           for(int i=0;i<blocked.length;++i){
-               setBlocked(blocked[i][0], blocked[i][1]);
+           for(int i=0;i<blocked.size();++i){
+               setBlocked(blocked.get(i).i, blocked.get(i).j);
            }
            
            
@@ -236,8 +236,14 @@ public class AStar {
     	return(current != null && current.i == i && current.j == j);
     }
      
-    public static void main(String[] args) throws Exception{   
-        test(1, 5, 5, 0, 0, 3, 2, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result1.txt"); 
+    public static void main(String[] args) throws Exception{
+    	ArrayList<Cell> list = new ArrayList<Cell>();
+    	list.add(new Cell(0,4));
+    	list.add(new Cell(2,2));
+    	list.add(new Cell(3,1));
+    	list.add(new Cell(3,3));
+    	list.add(new Cell(4,1));
+        test(1, 5, 5, 0, 0, 3, 2, list, "result1.txt"); 
         /*test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result2.txt");   
         test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}}, "result3.txt");
         
