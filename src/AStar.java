@@ -265,6 +265,8 @@ public class AStar {
 		int ya =0;
 		int yb =0;
 		int x =0;
+		int x_size;
+		int y_size;
 		while(sc.hasNextLine()){
 			
 			char[] charArray = sc.nextLine().toCharArray();
@@ -294,6 +296,9 @@ public class AStar {
 			}
 			x++;
 		}
+		x_size=x;
+		y_size=size_of_grid;
+		
 		System.out.println("Coord de A " + "X:" + xa +"  "+  "Y:"+ ya);
 		System.out.println("Nb of A " + nb_of_A);
 		System.out.println("Nb of B " + nb_of_B);
@@ -301,6 +306,9 @@ public class AStar {
 		System.out.println("Nb of BL " + nb_of_BL);
 		System.out.println("LA LISTE DES ELEMENTS BLOKES " + list_blocked.toString());
 		System.out.println("Size of grid " + size_of_grid);
+		System.out.println("X et Y de la grille : " + x_size + size_of_grid);
+		test(1, x_size, y_size, xa, xb, ya, yb, list_blocked, "result8.txt"); 
+		
 	}
 }
 
