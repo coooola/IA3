@@ -79,16 +79,6 @@ public class AStar {
             if(current.i-1>=0){
                 t = grid[current.i-1][current.j];
                 checkAndUpdateCost(current, t, current.finalCost+V_H_COST); 
-
-                if(current.j-1>=0){                      
-                    t = grid[current.i-1][current.j-1];
-                    checkAndUpdateCost(current, t, current.finalCost+DIAGONAL_COST); 
-                }
-
-                if(current.j+1<grid[0].length){
-                    t = grid[current.i-1][current.j+1];
-                    checkAndUpdateCost(current, t, current.finalCost+DIAGONAL_COST); 
-                }
             } 
 
             if(current.j-1>=0){
@@ -103,17 +93,7 @@ public class AStar {
 
             if(current.i+1<grid.length){
                 t = grid[current.i+1][current.j];
-                checkAndUpdateCost(current, t, current.finalCost+V_H_COST); 
-
-                if(current.j-1>=0){
-                    t = grid[current.i+1][current.j-1];
-                    checkAndUpdateCost(current, t, current.finalCost+DIAGONAL_COST); 
-                }
-                
-                if(current.j+1<grid[0].length){
-                   t = grid[current.i+1][current.j+1];
-                    checkAndUpdateCost(current, t, current.finalCost+DIAGONAL_COST); 
-                }  
+                checkAndUpdateCost(current, t, current.finalCost+V_H_COST);   
             }
         } 
     }
