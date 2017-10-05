@@ -276,7 +276,7 @@ public class AStar {
 					xb=x;
 					yb=i;
 				}
-					yb=i;
+					
 				if (charArray[i] == '#'){
 					nb_of_BL++;
 				}
@@ -288,6 +288,7 @@ public class AStar {
 		System.out.println("Coord de A " + "X:" + xa +"  "+  "Y:"+ ya);
 		System.out.println("Nb of A " + nb_of_A);
 		System.out.println("Nb of B " + nb_of_B);
+		System.out.println("Coord de B " + "X:" + xb +"  "+  "Y:"+ yb);
 		System.out.println("Nb of BL " + nb_of_BL);
 		System.out.println("Size of grid " + size_of_grid);
 	}
