@@ -63,7 +63,7 @@ public class AStar {
     
 
 
-	public static void AStar(){ 
+	public static void Astar(){ 
 
 		//add the start location to open list.
 		open.add(grid[startI][startJ]);
@@ -162,7 +162,7 @@ public class AStar {
            System.out.println();
            **/
            
-           AStar();
+           Astar();
            /**
            System.out.println("\nScores for cells: ");
            for(int i=0;i<x;++i){
