@@ -167,7 +167,7 @@ public class DijkstraEx2 {
            System.out.println("\nScores for cells: ");
            for(int i=0;i<x;++i){
                for(int j=0;j<y;++j){
-                   if(grid[i][j]!=null)System.out.printf("%-3d ", grid[i][j].cost);
+                   if(grid[i][j]!=null)System.out.printf("%-3d ", grid[i][j].finalCost);
                    else System.out.print("BL  ");
                }
                System.out.println();
@@ -268,7 +268,7 @@ public class DijkstraEx2 {
 		while(sc.hasNextLine()){
 			
 			char[] charArray = sc.nextLine().toCharArray();
-			size_of_grid=charArray.length - 1 ;
+			size_of_grid=charArray.length;
 			for (int i =0; i< charArray.length;i++) {
 				//Getting starting cell
 				if (charArray[i] == 'A'){
@@ -306,9 +306,9 @@ public class DijkstraEx2 {
 		while(sc2.hasNextLine()){
 			
 			char[] charArray = sc2.nextLine().toCharArray();
-			size_of_grid=charArray.length - 1 ;
+			size_of_grid=charArray.length;
 
-			for (int i =0; i< charArray.length-1 ;i++) {
+			for (int i =0; i< charArray.length;i++) {
 				grid[x][i] = new Cell(x, i);
 				//moutain
 				if (charArray[i] == 'm')
