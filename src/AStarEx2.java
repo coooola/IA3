@@ -129,12 +129,10 @@ public class AStarEx2 {
 
 		for(int i=0;i<x;++i){
 			for(int j=0;j<y;++j){
-				System.out.println(grid[i][j].cost);
-				grid[i][j] = new Cell(i, j);
 				grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
-				//                  System.out.print(grid[i][j].heuristicCost+" ");
+				//System.out.print(grid[i][j].heuristicCost+" ");
 			}
-			//              System.out.println();
+			//System.out.println();
 		}
 		grid[si][sj].finalCost = 0;
 
@@ -166,7 +164,7 @@ public class AStarEx2 {
           
            System.out.println("\nScores for cells: ");
            for(int i=0;i<x;++i){
-               for(int j=0;j<x;++j){
+               for(int j=0;j<y;++j){
                    if(grid[i][j]!=null)System.out.printf("%-3d ", grid[i][j].finalCost);
                    else System.out.print("BL  ");
                }
@@ -238,18 +236,10 @@ public class AStarEx2 {
     }
      
     public static void main(String[] args) throws Exception{
-    	/*ArrayList<Cell> list = new ArrayList<Cell>();
-    	list.add(new Cell(0,4));
-    	list.add(new Cell(2,2));
-    	list.add(new Cell(3,1));
-    	list.add(new Cell(3,3));
-    	list.add(new Cell(4,1));
-        test(1, 5, 5, 0, 0, 3, 2, list, "result1.txt"); 
-        test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}}, "result2.txt");   
-        test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}}, "result3.txt");
-        
-        test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}}, "result4.txt");*/
         ReadFromFileUsingScanner("board-2-1.txt");
+        ReadFromFileUsingScanner("board-2-2.txt");
+        ReadFromFileUsingScanner("board-2-3.txt");
+        ReadFromFileUsingScanner("board-2-4.txt");
     }
 	public static void ReadFromFileUsingScanner(String fileName) throws IOException {
 		File file = new File(fileName);
@@ -273,7 +263,7 @@ public class AStarEx2 {
 			
 			char[] charArray = sc.nextLine().toCharArray();
 			//int length = sc.nextLine().length();
-			size_of_grid=charArray.length - 1 ; // We dont want '\n' being counted 
+			size_of_grid=charArray.length; // We dont want '\n' being counted 
 
 				//System.out.println(charArray[i]);
 			for (int i =0; i< charArray.length;i++) {
@@ -314,10 +304,10 @@ public class AStarEx2 {
 			
 			char[] charArray = sc2.nextLine().toCharArray();
 			//int length = sc.nextLine().length();
-			size_of_grid=charArray.length - 1 ; // We dont want '\n' being counted 
+			size_of_grid=charArray.length; // We dont want '\n' being counted 
 
 				//System.out.println(charArray[i]);
-			for (int i =0; i< charArray.length-1 ;i++) {
+			for (int i =0; i< charArray.length; i++) {
 				grid[x][i] = new Cell(x, i);
 				if (charArray[i] == 'm')
 				{			
@@ -351,7 +341,7 @@ public class AStarEx2 {
 		System.out.println("LA LISTE DES ELEMENTS BLOKES " + list_blocked.toString());
 		System.out.println("Size of grid " + size_of_grid);
 		System.out.println("X et Y de la grille : " + x_size + size_of_grid);
-		test(1, x_size, y_size, xa, ya, xb, yb, list_blocked, "result8.txt"); 
+		test(1, x_size, y_size, xa, ya, xb, yb, list_blocked, "result_" + fileName); 
 		
 	}
 }
