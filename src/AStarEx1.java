@@ -79,13 +79,17 @@ public class AStarEx1 {
 
 		while(true){ 
 			current = open.poll();
+			
+			//if there is not more cell in the queue.
 			if(current==null)break;
+			
 			closed[current.i][current.j]=true; 
-
+			
 			if(current.equals(grid[endI][endJ])){
 				return; 
 			} 
-
+			
+			//Checking around the current cell
 			Cell t;  
 			if(current.i-1>=0){
 				t = grid[current.i-1][current.j];
@@ -297,9 +301,7 @@ public class AStarEx1 {
 					nb_of_BL++;
 					
 					list_blocked.add(new Cell(x,i));
-				}
-				
-		
+				}			
 			}
 			x++;
 		}
