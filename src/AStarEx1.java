@@ -6,15 +6,15 @@ import java.io.*;
 //We changed the algorithm so we don't take into account the diagonal
 
 public class AStarEx1 {
-    public static final int DIAGONAL_COST = 14;
-    public static final int V_H_COST = 10;
+    public static final int V_H_COST = 10; //Used of a static cost for the cell
     
     static class Cell{  
         int heuristicCost = 0; //Heuristic cost
         int finalCost = 0; //G+H
-        int i, j;
-        Cell parent; 
+        int i, j; //Coordinates
+        Cell parent; //Useful to make a dynamic list of the final path.
         
+        //Constructor
         Cell(int i, int j){
             this.i = i;
             this.j = j;
@@ -26,29 +26,36 @@ public class AStarEx1 {
         }
     }
     
-    //Blocked cells are just null Cell values in grid
-    static Cell [][] grid = new Cell[5][5];
+    //Blocked cells are just null Cell values in grid.
+    static Cell [][] grid;
     
     static PriorityQueue<Cell> open;
      
     static boolean closed[][];
+    
+    //Coordinates of start point.
     static int startI, startJ;
+    //Coordinates of end point.
     static int endI, endJ;
-            
+    
+    //Block a cell in the grid.
     public static void setBlocked(int i, int j){
         grid[i][j] = null;
     }
     
+    //Set coordinates of the starting cell.
     public static void setStartCell(int i, int j){
         startI = i;
         startJ = j;
     }
     
+    //Set coordinates of the ending cell.
     public static void setEndCell(int i, int j){
         endI = i;
         endJ = j; 
     }
     
+    //Check and update the cost of the current cell with the cost in parameter.
     static void checkAndUpdateCost(Cell current, Cell t, int cost){
         if(t == null || closed[t.i][t.j])return;
         int t_final_cost = t.heuristicCost+cost;
@@ -62,7 +69,7 @@ public class AStarEx1 {
     }
     
 
-
+    //Astar algorithm.
 	public static void Astar(){ 
 
 		//add the start location to open list.
@@ -110,9 +117,8 @@ public class AStarEx1 {
     ei, ej = end location's x and y coordinates
     int[][] blocked = array containing inaccessible cell coordinates
     */
-    public static void test(int tCase, int x, int y, int si, int sj, int ei, int ej, ArrayList<Cell> blocked, String fileName){
-           System.out.println("\n\nTest Case #"+tCase);
-            //Reset
+    public static void test(int x, int y, int si, int sj, int ei, int ej, ArrayList<Cell> blocked, String fileName){
+           //Reset
            grid = new Cell[x][y];
            closed = new boolean[x][y];
            open = new PriorityQueue<>((Object o1, Object o2) -> {
@@ -148,7 +154,7 @@ public class AStarEx1 {
            
            
            //Display initial map
-           
+           /**
            System.out.println("Grid: ");
            for(int i=0;i<x;++i){
                for(int j=0;j<y;++j){
@@ -160,9 +166,11 @@ public class AStarEx1 {
                System.out.println();
            } 
            System.out.println();
-           
+           **/
            
            Astar();
+           
+           //Display score of cells at the end if you want
            /**
            System.out.println("\nScores for cells: ");
            for(int i=0;i<x;++i){
@@ -174,6 +182,7 @@ public class AStarEx1 {
            }
            System.out.println();
             
+           //Display the path.
            if(closed[endI][endJ]){
                //Trace back the path 
                 System.out.println("Path: ");
@@ -191,11 +200,12 @@ public class AStarEx1 {
           if(closed[endI][endJ]){
 	          final File resultFile =new File(fileName); 
 	          try {
-	              // Creation du fichier
+	              // Creation of the file result
 	        	  resultFile.createNewFile();
-	              // creation d'un writer (un �crivain)
+	              // creation of the writer
 	              final FileWriter writer = new FileWriter(resultFile);
 	              try {
+	            	  //Writing the result
 	            	  for(int i=0;i<x;++i){
 	                      for(int j=0;j<y;++j){
 	                         if(i==si&&j==sj)
@@ -213,7 +223,7 @@ public class AStarEx1 {
 	                  } 
 	                  System.out.println("Result created ! You can find the result in " + fileName );
 	              } finally {
-	                  // quoiqu'il arrive, on ferme le fichier
+	                  // We close the file in any case.
 	                  writer.close();
 	                  
 	              }
@@ -228,6 +238,7 @@ public class AStarEx1 {
         	  
     }
     
+    //Return true if a cell is in the final path.
     public static boolean pathContainCell(int i, int j, Cell c)
     {
     	Cell current = c;
@@ -236,23 +247,25 @@ public class AStarEx1 {
         }
     	return(current != null && current.i == i && current.j == j);
     }
-     
+    
+    
     public static void main(String[] args) throws Exception{
         ReadFromFileUsingScanner("board-1-1.txt");
         ReadFromFileUsingScanner("board-1-2.txt");
         ReadFromFileUsingScanner("board-1-3.txt");
         ReadFromFileUsingScanner("board-1-4.txt");
     }
+    
+    
+    //Used to read from the txt file the board.
 	public static void ReadFromFileUsingScanner(String fileName) throws IOException {
 		File file = new File(fileName);
 		Scanner sc = new Scanner(file);
-		int nb_of_A =0 ;
+		
+		//Variable used to stock datas from the file
 		int size_of_grid = 0;
-		int nb_of_B =0 ;
 		int nb_of_BL =0 ;
 		ArrayList<Cell> list_blocked = new ArrayList<Cell>();
-		//int x = 0;
-		//int y=0;
 		int xb = 0;
 		int xa=0;
 		int ya =0;
@@ -260,25 +273,26 @@ public class AStarEx1 {
 		int x =0;
 		int x_size;
 		int y_size;
+		
+		//Reading the file
 		while(sc.hasNextLine()){
 			
 			char[] charArray = sc.nextLine().toCharArray();
-			//int length = sc.nextLine().length();
-			size_of_grid=charArray.length; // We dont want '\n' being counted 
-			System.out.println(size_of_grid);
-				//System.out.println(charArray[i]);
+
+			size_of_grid=charArray.length;
+
 			for (int i =0; i< charArray.length;i++) {
+				//Getting starting cell
 				if (charArray[i] == 'A'){
-					nb_of_A++;
 					xa=x;
 					ya=i;
 				}
+				//Getting ending cell
 				if (charArray[i] == 'B'){
-					nb_of_B++;
 					xb=x;
 					yb=i;
 				}
-					
+				//Getting blocked cell
 				if (charArray[i] == '#'){
 					nb_of_BL++;
 					
@@ -292,16 +306,14 @@ public class AStarEx1 {
 		x_size=x;
 		y_size=size_of_grid;
 		
-		System.out.println("Coord de A " + "X:" + xa +"  "+  "Y:"+ ya);
-		System.out.println("Nb of A " + nb_of_A);
-		System.out.println("Nb of B " + nb_of_B);
-		System.out.println("Coord de B " + "X:" + xb +"  "+  "Y:"+ yb);
-		System.out.println("Nb of BL " + nb_of_BL);
-		System.out.println("LA LISTE DES ELEMENTS BLOKES " + list_blocked.toString());
-		System.out.println("Size of grid " + size_of_grid);
-		System.out.println("X et Y de la grille : " + x_size + size_of_grid);
-		test(1, x_size, y_size, xa, ya, xb, yb, list_blocked, "result_" + fileName); 
-		
+		System.out.println("Coordinates of A : [ "+ xa +" ; "+ ya + " ]");
+		System.out.println("Coordinates of B : [ "+ xb +" ; "+ yb + " ]");
+		System.out.println("Number of blocked elements : " + nb_of_BL);
+		System.out.println("List of blocked elements : " + list_blocked.toString());
+		System.out.println("Size of the grid : [ " + x_size + " - " + size_of_grid + " ]");
+		test(x_size, y_size, xa, ya, xb, yb, list_blocked, "result_" + fileName); 
+		System.out.println();
+		System.out.println();
 		sc.close();
 		
 	}
