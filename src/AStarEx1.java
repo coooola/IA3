@@ -115,11 +115,11 @@ public class AStarEx1 {
 
 	/*
     Params :
-    tCase = test case No.
     x, y = Board's dimensions
     si, sj = start location's x and y coordinates
     ei, ej = end location's x and y coordinates
-    int[][] blocked = array containing inaccessible cell coordinates
+    ArrayList<Cell> blocked = list containing inaccessible cell coordinates
+    FileName = where we have to put the result
     */
     public static void test(int x, int y, int si, int sj, int ei, int ej, ArrayList<Cell> blocked, String fileName){
            //Reset

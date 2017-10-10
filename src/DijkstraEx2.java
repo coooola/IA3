@@ -3,19 +3,18 @@ import java.util.*;
 import java.io.*;
 
 
-//source code from http://www.codebytes.in/2015/02/a-shortest-path-finding-algorithm.html
-//We changed the algorithm so we don't take into account the diagonal
+//Dijkstra algorithm
 
-public class AStarEx2 {
+public class DijkstraEx2 {
     
     static class Cell{  
-        int heuristicCost = 0; //Heuristic cost
+    	//No more heuristic cost
         int finalCost = 0; //G+H
         int cost = 0; //Basic cost of the cell
         int i, j;//Coordinates
-        Cell parent;  //Useful to make a dynamic list of the final path.
+        Cell parent; //Useful to make a dynamic list of the final path.
         
-      //Constructor
+        //Constructor
         Cell(int i, int j){
             this.i = i;
             this.j = j;
@@ -35,7 +34,7 @@ public class AStarEx2 {
     static boolean closed[][];
     //Coordinates of start point.
     static int startI, startJ;
-    //Coordinates of end point.
+  //Coordinates of end point.
     static int endI, endJ;
             
     //Block a cell in the grid.
@@ -58,7 +57,7 @@ public class AStarEx2 {
     //Check and update the cost of the current cell with the cost in parameter.
     static void checkAndUpdateCost(Cell current, Cell t, int cost){
         if(t == null || closed[t.i][t.j])return;
-        int t_final_cost = t.heuristicCost+cost;
+        int t_final_cost = cost; //modification of the calcul of the final cost.
         
         boolean inOpen = open.contains(t);
         if(!inOpen || t_final_cost<t.finalCost){
@@ -68,8 +67,9 @@ public class AStarEx2 {
         }
     }
     
-    //Astar algorithm.
-	public static void Astar(){ 
+
+    //Dijkstra algorithm.
+	public static void Dijkstra(){ 
 
 		//add the start location to open list.
 		open.add(grid[startI][startJ]);
@@ -135,13 +135,6 @@ public class AStarEx2 {
 		//Set End Location
 		setEndCell(ei, ej); 
 
-		for(int i=0;i<x;++i){
-			for(int j=0;j<y;++j){
-				grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
-				//System.out.print(grid[i][j].heuristicCost+" ");
-			}
-			//System.out.println();
-		}
 		grid[si][sj].finalCost = 0;
 
 		/*
@@ -168,14 +161,13 @@ public class AStarEx2 {
            System.out.println();
            **/
            
-           Astar();
-           
+           Dijkstra();
+          
            //Display score of cells at the end if you want
-           
            System.out.println("\nScores for cells: ");
            for(int i=0;i<x;++i){
                for(int j=0;j<y;++j){
-                   if(grid[i][j]!=null)System.out.printf("%-3d ", grid[i][j].finalCost);
+                   if(grid[i][j]!=null)System.out.printf("%-3d ", grid[i][j].cost);
                    else System.out.print("BL  ");
                }
                System.out.println();
@@ -183,7 +175,7 @@ public class AStarEx2 {
            System.out.println();
            
            //Display the path.
-           /**
+            /**
            if(closed[endI][endJ]){
                //Trace back the path 
                 System.out.println("Path: ");
@@ -201,9 +193,9 @@ public class AStarEx2 {
           if(closed[endI][endJ]){
 	          final File resultFile =new File(fileName); 
 	          try {
-	              //Creation of the file result
+	        	  //Creation of the file result
 	        	  resultFile.createNewFile();
-	              //creation of the writer
+	        	  //creation of the writer
 	              final FileWriter writer = new FileWriter(resultFile);
 	              try {
 	            	  for(int i=0;i<x;++i){
@@ -249,13 +241,13 @@ public class AStarEx2 {
     }
      
     public static void main(String[] args) throws Exception{
-        ReadFromFileUsingScanner("board-2-1.txt");
+    	ReadFromFileUsingScanner("board-2-1.txt");
         ReadFromFileUsingScanner("board-2-2.txt");
         ReadFromFileUsingScanner("board-2-3.txt");
         ReadFromFileUsingScanner("board-2-4.txt");
     }
     
-  //Used to read from the txt file the board.
+    //Used to read from the txt file the board.
 	public static void ReadFromFileUsingScanner(String fileName) throws IOException {
 		File file = new File(fileName);
 		Scanner sc = new Scanner(file);
@@ -263,7 +255,7 @@ public class AStarEx2 {
 		//Variable used to stock datas from the file
 		int size_of_grid = 0;
 		int nb_of_BL =0 ;
-		ArrayList<Cell> list_blocked = new ArrayList<Cell>();
+		ArrayList<Cell> list_blocked = new ArrayList<Cell>();	
 		int xb = 0;
 		int xa=0;
 		int ya =0;
@@ -276,8 +268,7 @@ public class AStarEx2 {
 		while(sc.hasNextLine()){
 			
 			char[] charArray = sc.nextLine().toCharArray();
-			size_of_grid=charArray.length;
-			
+			size_of_grid=charArray.length - 1 ;
 			for (int i =0; i< charArray.length;i++) {
 				//Getting starting cell
 				if (charArray[i] == 'A'){
@@ -289,12 +280,16 @@ public class AStarEx2 {
 					xb=x;
 					yb=i;
 				}
-				//Getting blocked cell
+				//Getting blocked cell	
 				if (charArray[i] == '#'){
 					nb_of_BL++;
 					
 					list_blocked.add(new Cell(x,i));
 				}
+				
+				
+				
+		
 			}
 			x++;
 		}
@@ -311,10 +306,9 @@ public class AStarEx2 {
 		while(sc2.hasNextLine()){
 			
 			char[] charArray = sc2.nextLine().toCharArray();
-			size_of_grid=charArray.length;
-			
-			
-			for (int i =0; i< charArray.length; i++) {
+			size_of_grid=charArray.length - 1 ;
+
+			for (int i =0; i< charArray.length-1 ;i++) {
 				grid[x][i] = new Cell(x, i);
 				//moutain
 				if (charArray[i] == 'm')
@@ -350,7 +344,7 @@ public class AStarEx2 {
 		System.out.println("Number of blocked elements : " + nb_of_BL);
 		System.out.println("List of blocked elements : " + list_blocked.toString());
 		System.out.println("Size of the grid : [ " + x_size + " - " + size_of_grid + " ]");
-		test(x_size, y_size, xa, ya, xb, yb, list_blocked, "result_" + fileName); 
+		test(x_size, y_size, xa, ya, xb, yb, list_blocked, "result_dijkstra_" + fileName); 
 		System.out.println();
 		System.out.println();
 	
@@ -359,4 +353,3 @@ public class AStarEx2 {
 		
 	}
 }
-
