@@ -206,6 +206,10 @@ public class DijkstraEx2 {
 	                        	 writer.write("B");
 	                         else if (pathContainCell(i, j, grid[endI][endJ]))
 	                        	 writer.write("O");
+	                         else if (closed[i][j])
+	                        	 writer.write("x");
+	                         else if (open.contains(grid[i][j]))
+	                        	 writer.write("*");
 	                         else if(grid[i][j]!=null)
 	                        	 writer.write(".");
 	                         else

@@ -5,11 +5,10 @@ import java.io.*;
 //source code from http://www.codebytes.in/2015/02/a-shortest-path-finding-algorithm.html
 //We changed the algorithm so we don't take into account the diagonal
 
-public class AStarEx1 {
+public class BFSEx1 {
     public static final int V_H_COST = 10; //Used of a static cost for the cell
     
-    static class Cell{  
-        int heuristicCost = 0; //Heuristic cost
+    static class Cell{
         int finalCost = 0; //G+H
         int i, j; //Coordinates
         Cell parent; //Useful to make a dynamic list of the final path.
@@ -29,7 +28,7 @@ public class AStarEx1 {
     //Blocked cells are just null Cell values in grid.
     static Cell [][] grid;
     
-    static PriorityQueue<Cell> open;
+    static LinkedList<Cell> open;
      
     static boolean closed[][];
     
@@ -58,7 +57,7 @@ public class AStarEx1 {
     //Check and update the cost of the current cell with the cost in parameter.
     static void checkAndUpdateCost(Cell current, Cell t, int cost){
         if(t == null || closed[t.i][t.j])return;
-        int t_final_cost = t.heuristicCost+cost;
+        int t_final_cost = cost;
         
         boolean inOpen = open.contains(t);
         if(!inOpen || t_final_cost<t.finalCost){
@@ -70,7 +69,7 @@ public class AStarEx1 {
     
 
     //Astar algorithm.
-	public static void Astar(){ 
+	public static void BFS(){ 
 
 		//add the start location to open list.
 		open.add(grid[startI][startJ]);
@@ -125,13 +124,7 @@ public class AStarEx1 {
            //Reset
            grid = new Cell[x][y];
            closed = new boolean[x][y];
-           open = new PriorityQueue<>((Object o1, Object o2) -> {
-                Cell c1 = (Cell)o1;
-                Cell c2 = (Cell)o2;
-
-			return c1.finalCost<c2.finalCost?-1:
-				c1.finalCost>c2.finalCost?1:0;
-		});
+           open = new LinkedList<Cell>();
 		//Set start position
 		setStartCell(si, sj);  //Setting to 0,0 by default. Will be useful for the UI part
 
@@ -141,10 +134,7 @@ public class AStarEx1 {
 		for(int i=0;i<x;++i){
 			for(int j=0;j<y;++j){
 				grid[i][j] = new Cell(i, j);
-				grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
-				//                  System.out.print(grid[i][j].heuristicCost+" ");
 			}
-			//              System.out.println();
 		}
 		grid[si][sj].finalCost = 0;
 
@@ -172,7 +162,7 @@ public class AStarEx1 {
            System.out.println();
            **/
            
-           Astar();
+           BFS();
            
            //Display score of cells at the end if you want
            /**
@@ -317,7 +307,7 @@ public class AStarEx1 {
 		System.out.println("Number of blocked elements : " + nb_of_BL);
 		System.out.println("List of blocked elements : " + list_blocked.toString());
 		System.out.println("Size of the grid : [ " + x_size + " - " + size_of_grid + " ]");
-		test(x_size, y_size, xa, ya, xb, yb, list_blocked, "result_" + fileName); 
+		test(x_size, y_size, xa, ya, xb, yb, list_blocked, "result_BFS_" + fileName); 
 		System.out.println();
 		System.out.println();
 		sc.close();

@@ -205,6 +205,7 @@ public class DijkstraEx1 {
 	              // creation of the writer
 	              final FileWriter writer = new FileWriter(resultFile);
 	              try {
+	            	  System.out.println("SIZE OPENED : " + open.size());
 	            	  //Writing the result
 	            	  for(int i=0;i<x;++i){
 	                      for(int j=0;j<y;++j){
@@ -214,6 +215,10 @@ public class DijkstraEx1 {
 	                        	 writer.write("B");
 	                         else if (pathContainCell(i, j, grid[endI][endJ]))
 	                        	 writer.write("O");
+	                         else if (closed[i][j])
+	                        	 writer.write("x");
+	                         else if (open.contains(grid[i][j]))
+	                        	 writer.write("*");
 	                         else if(grid[i][j]!=null)
 	                        	 writer.write(".");
 	                         else

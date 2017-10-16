@@ -1,7 +1,7 @@
-.........OOOOO......
-.........O#..OO.....
-.......##OO#..OOOO..
-......#OA#O#.....OO.
-......#O#OO#......OO
-......#OOO#........O
-.......###.........B
+xxxxxxxxxOOOOOxxxxxx
+xxxxxxxxxO#xxOOxxxxx
+xxxxxxx##OO#xxOOOOxx
+xxxxxx#OA#O#xxxxxOOx
+xxxxxx#O#OO#xxxxxxOO
+xxxxxx#OOO#xxxxxxxxO
+xxxxxxx###xxxxxxxxxB
